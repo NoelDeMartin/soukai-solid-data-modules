@@ -5,6 +5,7 @@ import { readFileSync } from "fs";
 import { bootModels, setEngine } from "soukai";
 import { SolidEngine, bootSolidModels } from "soukai-solid";
 import { Bookmark } from "../modules/Bookmarks";
+import Topic from "../modules/Topic";
 import StubFetcher from "../utils/StubFetcher";
 
 export function loadFixture<T = string>(name: string): T {
@@ -26,7 +27,30 @@ describe("Bookmark CRUD", () => {
     bootSolidModels();
     bootModels({
       Bookmark,
+      Topic,
     });
+  });
+
+  it('Uses relationships', async () => {
+    // Arrange
+    StubFetcher.addFetchResponse(loadFixture('bookmarks/movies.ttl'));
+    StubFetcher.addFetchResponse(loadFixture('bookmarks/movies.ttl'));
+
+    // Act
+    const topics = await Topic.all({
+        $in: ['https://mypod.com/topics'],
+    });
+
+    const bookmarks = await Bookmark.all({
+        $in: ['https://mypod.com/topics'],
+    });
+
+    // Assert
+    expect(topics).toHaveLength(9);
+    expect(bookmarks).toHaveLength(22);
+
+    expect(bookmarks[0].topic).not.toBeUndefined();
+    expect(bookmarks[0].topic?.bookmarks).not.toBeUndefined();
   });
 
   it("Create", async () => {

@@ -1,4 +1,4 @@
-import { FieldType, TimestampField } from "soukai";
+import { BelongsToOneRelation, FieldType, TimestampField } from "soukai";
 import {
   defineSolidModelSchema, SolidContainer,
   SolidDocument,
@@ -11,6 +11,7 @@ import {
   getTypeIndexFromPofile,
   registerInTypeIndex
 } from "../utils/typeIndexHelpers";
+import Topic from '@/modules/Topic';
 
 export type ICreateBookmark = {
   topic: string;
@@ -52,6 +53,14 @@ export class Bookmark extends BookmarkSchema {
   // newInstance({ url: "url" }, true)
   // newInstance<T extends Model>(this: T, attributes?: Attributes | undefined, exists?: boolean | undefined): T {
   // }
+
+  topic?: Topic;
+  relatedTopic!: BelongsToOneRelation<Topic, Bookmark, typeof Bookmark>;
+
+  public topicRelationship() {
+    return this.belongsToOne(Topic, 'topicUrl');
+  }
+
 }
 
 export class BookmarkFactory {
