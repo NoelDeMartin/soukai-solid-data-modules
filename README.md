@@ -1,4 +1,4 @@
-# Implemented conventions
+# Implemented conventions ![CI](https://github.com/NoelDeMartin/soukai-solid-data-modules/actions/workflows/ci.yml/badge.svg)
 Implemented conventions
 
 - [Bookmark](https://pdsinterop.org/conventions/bookmark/)
