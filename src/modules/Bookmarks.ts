@@ -30,8 +30,8 @@ export const BookmarkSchema = defineSolidModelSchema({
   timestamps: [TimestampField.CreatedAt, TimestampField.UpdatedAt],
 
   fields: {
-    topic: {
-      type: FieldType.String,
+    topicUrl: {
+      type: FieldType.Key,
       rdfProperty: "bk:hasTopic",
     },
     label: {
